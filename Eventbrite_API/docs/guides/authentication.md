@@ -5,6 +5,7 @@ walks you through generating a token from the Eventbrite Developer Dashboard,
 adding it to your requests, and storing it securely. All Eventbrite API
 endpoints require authentication.
 
+<br>
 
 ## Table of Contents
 
@@ -14,9 +15,7 @@ endpoints require authentication.
 - [Secure Your Token](#secure-your-token)
 - [Server-Side OAuth Flow](#server-side-oauth-flow)
 
-
 <br>
-
 
 ## How Eventbrite Authentication Works
 
@@ -35,9 +34,7 @@ This guide uses **Private Token** for all examples. For production
 applications that require user-level authorization, see
 [Server-Side OAuth Flow](#server-side-oauth-flow).
 
-
 <br>
-
 
 ## Generate a Private Token
 
@@ -65,9 +62,7 @@ curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
 click **Show API key, client secret and tokens** next to your app,
 and copy your Private Token from there.
 
-
 <br>
-
 
 ## Add Your Token to a Request
 
@@ -89,9 +84,7 @@ servers and browsers, which creates a security risk.
 <https://www.eventbrite.com/api/v3/users/me/?token=YOUR_PRIVATE_TOKEN>
 ```
 
-
 <br>
-
 
 ## Secure Your Token
 
@@ -104,9 +97,7 @@ API requests on your behalf.
 - Delete tokens you no longer use from the
 [API Key Management page](https://www.eventbrite.com/account-settings/apps).
 
-
 <br>
-
 
 ## Server-Side OAuth Flow
 
@@ -156,9 +147,7 @@ curl --request POST \\
 A successful response returns a JSON object containing `access_token`.
 Use this token in the `Authorization` header for subsequent requests.
 
-
 <br>
-
 
 ## Next Steps
 
@@ -166,6 +155,4 @@ Use this token in the `Authorization` header for subsequent requests.
 - [Code Examples](../examples/code-examples.md)
 - [SDKs](../sdks/sdks.md)
 
-
 <br>
-
