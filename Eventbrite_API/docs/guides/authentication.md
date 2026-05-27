@@ -1,153 +1,154 @@
 # Authentication Guide
 
-This guide describes how to authenticate requests to the Eventbrite API, using OAuth 2.0. All Eventbrite API endpoints require authentication. This guide focuses on token types used by Eventbrite, how to obtain tokens, and how to include tokens in API requests.
+Authenticate your Eventbrite API requests using a Private Token. This guide
+walks you through generating a token from the Eventbrite Developer Dashboard,
+adding it to your requests, and storing it securely. All Eventbrite API
+endpoints require authentication.
 
-### Table of Contents
+## Table of Contents
 
-- [OAuth 2.0](#oauth-20)
-- [Eventbrite API Keys and Token](#eventbrite-api-keys-and-token)
-- [Authentication Methods](#authentication-methods)
-- [Environment Configuration](#environment-configuration)
-- [Best Practices](#best-practices)
+- [How Eventbrite Authentication Works](#how-eventbrite-authentication-works)
+- [Generate a Private Token](#generate-a-private-token)
+- [Add Your Token to a Request](#add-your-token-to-a-request)
+- [Secure Your Token](#secure-your-token)
+- [Server-Side OAuth Flow](#server-side-oauth-flow)
 
-<br>
+---
 
-## OAuth 2.0
+## How Eventbrite Authentication Works
 
-Eventbrite uses OAuth 2.0 for token-based authorization. OAuth tokens are used to authenticate API requests and determine what actions a client is allowed to perform. 
+Eventbrite uses OAuth 2.0, an authorization framework that lets your
+application access the API on behalf of a user. Every API request must
+include a valid token. Without it, the API returns a 401 Unauthorized error.
 
-### Private Token
+Eventbrite issues two credential types:
 
-Eventbrite uses multiple token concepts that are often confused but Private (OAuth) Token will be only used for further authorization. 
+| Credential | What it is | When to use it |
+| --- | --- | --- |
+| Private Token | A long-lived personal access token | Testing, server-side scripts |
+| API Key + Client Secret | App credentials used in OAuth flows | Production apps with user login |
 
-- Issued from the Eventbrite Developer Dashboard.
-- Commonly used for testing and server-side integrations.
-- Long-lived token.
+This guide uses **Private Token** for all examples. For production
+applications that require user-level authorization, see
+[Server-Side OAuth Flow](#server-side-oauth-flow).
 
-***Note**: This documentation primarily uses **Private Token** for simplicity.*
+---
 
-<br>
+## Generate a Private Token
 
-## Eventbrite API Keys and Token
-
-To use the Eventbrite API, you must first create an application. If you have not yet registered for Eventbrite, create your account [here](https://www.eventbrite.com/signin/). 
-
-### Get a Token
+**Prerequisites:** An Eventbrite account.
+[Create one here](https://www.eventbrite.com/signin/) if you don't have one.
 
 1. Log in to [Eventbrite](https://www.eventbrite.com/signin/).
-2. Go to **Account settings** under your profile.
-3. Navigate to **Developer Links > API Keys**.
-4. Click **Create API Key**.
-5. Fill in the required information and create the app.
-6. Click the `Create Key` button. 
-7. Copy your **Private token**.
+2. Click your profile, then go to **Account Settings**.
+3. Select **Developer Links** → **API Keys**.
+4. Click **Create API Key** and fill in the required fields.
+5. Click the **Create Key** button.
+6. Copy your **Private Token** and store it safely —
+you will not be able to view it again after leaving this page.
 
-### Existing API Keys
-
-**App Existed**
-
-- If you have already created a API key, visit your [API Key Management page](https://www.eventbrite.com/account-settings/apps). The page lists existed apps. In the following example, it shows an existed app, *Practice*. Click ‘Show API key, client secret and tokens' to see the details.
-
-**No App Existed**
-
-- In such a case that you cannot find the app listed on the page, click `Create API Key` to create a new app and generate a new API key and a token.
-
-<br>
-
-## Authentication Methods
-
-### Authentication Endpoints
-
-Authentication is required for all Eventbrite API endpoints. To call API requests, you need a private token.
-
-### 2-Way to Authenticate API Request
-
-**Header Parameter (Recommended)**
-
-- Replace `Bearer PERSONAL_OAUTH_TOKEN` with your private token in the `Authorization` header.
+**Verify:** Make the following request. A `200 OK` response with your
+account details confirms your token is valid.
 
 ```bash
-{Authorization: Bearer PERSONAL_OAUTH_TOKEN}
+curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
+  <https://www.eventbrite.com/api/v3/users/me/>
 ```
 
-**Query Parameter**
+**If you already have an API key:** Go to your
+[API Key Management page](https://www.eventbrite.com/account-settings/apps),
+click **Show API key, client secret and tokens** next to your app,
+and copy your Private Token from there.
 
-- Replace `PERSONAL_OAUTH_TOKEN` with your private token at the end of the URL. This method is supported but not recommended for production use.
+---
+
+## Add Your Token to a Request
+
+Use the `Authorization` header to authenticate requests. This is the
+recommended method for all environments.
 
 ```bash
-/v3/users/me/?token=PERSONAL_OAUTH_TOKEN
+curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
+  <https://www.eventbrite.com/api/v3/users/me/>
 ```
 
-<br>
+Replace `YOUR_PRIVATE_TOKEN` with the token you copied in the previous step.
 
-## Environment Configuration
-
-### Server-Side Authorization (Recommended)
-
-**Method 1. Redirect User**
-
-Redirect users to the Eventbrite authorization URL, including the following information:
-
-- API key
+**Query parameter (not recommended):** You can also pass the token as a URL
+parameter. Avoid this method in production — tokens in URLs are logged by
+servers and browsers, which creates a security risk.
 
 ```bash
-https://www.eventbrite.com/oauth/authorize?response_type=code&client_id=YOUR_API_KEY&redirect_uri=YOUR_REDIRECT_URI
+<https://www.eventbrite.com/api/v3/users/me/?token=YOUR_PRIVATE_TOKEN>
 ```
 
-- Redirect URI as query parameters
+---
+
+## Secure Your Token
+
+Treat your Private Token like a password. If it is exposed, anyone can make
+API requests on your behalf.
+
+- Store your token in environment variables, not in source code.
+- Use separate tokens for development and production environments.
+- Never commit tokens to version control or include them in public repositories.
+- Delete tokens you no longer use from the
+[API Key Management page](https://www.eventbrite.com/account-settings/apps).
+
+---
+
+## Server-Side OAuth Flow
+
+Use the server-side OAuth flow when your application needs to authenticate
+individual users — for example, a web app where each user logs in with their
+own Eventbrite account.
+
+**Prerequisites:** An API Key and Client Secret from your
+[API Key Management page](https://www.eventbrite.com/account-settings/apps).
+
+### Step 1. Redirect the user
+
+Send the user to the Eventbrite authorization URL:
 
 ```bash
-http://localhost:8080/oauth/redirect?code=YOUR_ACCESS_CODE
+<https://www.eventbrite.com/oauth/authorize>
+  ?response_type=code
+  &client_id=YOUR_API_KEY
+  &redirect_uri=YOUR_REDIRECT_URI
 ```
 
-You can find your API key and adjust OAuth Redirect URI details in **Account Settings > Key Info**.
+### Step 2. Receive the authorization code
 
-**Method 2. POST Request**
-
-Send a POST request to `http://www.eventbrite.com/oauth/token`, specifying the following information:
-
-- Access code
-- Client secret
-- API key
+Eventbrite redirects the user to your redirect URI with an authorization code:
 
 ```bash
-curl --request POST --url 'https://www.eventbrite.com/oauth/token' --header 'content-type: application/x-www-form-urlencoded' --data grant_type=authorization_code --data 'client_id=API_KEY --data client_secret=CLIENT_SECRET --data code=ACCESS_CODE --data 'redirect_uri=REDIRECT_URI'
+<http://localhost:8080/oauth/redirect?code=YOUR_ACCESS_CODE>
 ```
 
-### Client-Side Authorization
+### Step 3. Exchange the code for an access token
 
-Redirect users to the Eventbrite authorization URL, including the following information:
-
-- API key
-- Redirect URI as query parameters
+Send a POST request with your authorization code, API key, and client secret:
 
 ```bash
-https://www.eventbrite.com/oauth/authorize?response_type=token&client_id=YOUR_API_KEY&redirect_uri=YOUR_REDIRECT_URI
+curl --request POST \\
+  --url <https://www.eventbrite.com/oauth/token> \\
+  --header 'Content-Type: application/x-www-form-urlencoded' \\
+  --data grant_type=authorization_code \\
+  --data client_id=YOUR_API_KEY \\
+  --data client_secret=YOUR_CLIENT_SECRET \\
+  --data code=YOUR_ACCESS_CODE \\
+  --data redirect_uri=YOUR_REDIRECT_URI
 ```
 
-<br>
+### Step 4. Verify the token
 
-## Best Practices
+A successful response returns a JSON object containing `access_token`.
+Use this token in the `Authorization` header for subsequent requests.
 
-### Environment Variables
+---
 
-- Use separate tokens for development and production.
-
-### Token Security
-
-- Never expose tokens in public client-side code.
-- Store tokens in environment variables.
-- Do not use API keys in your client-side code before making them publicly available.
-- Monitor API key usage and delete API keys and any private tokens that are no longer needed.
-
-<br>
-
-## Next steps
+## Next Steps
 
 - [API Reference](../api/api-reference.md)
 - [Code Examples](../examples/code-examples.md)
 - [SDKs](../sdks/sdks.md)
-
-<br>
-
----
