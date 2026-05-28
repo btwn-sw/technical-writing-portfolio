@@ -39,15 +39,15 @@ Eventbrite는 두 가지 인증 자격 증명을 제공합니다.
 
 ## 프라이빗 토큰 생성
 
-**사전 요구사항:** Eventbrite 계정. 아직 없다면
-[여기서 만드세요](https://www.eventbrite.com/signin/).
+**사전 요구사항:** Eventbrite 계정. 계정이 아직 없다면
+[계정 만들기](https://www.eventbrite.com/signin/)를 클릭하세요.
 
 1. [Eventbrite](https://www.eventbrite.com/signin/)에 로그인하세요.
 2. 프로필을 클릭한 후 **계정 설정(Account Settings)**으로 이동하세요.
 3. **Developer Links** → **API Keys**를 선택하세요.
-4. *API 키 만들기(Create API Key)**를 클릭하고 필수 항목을 입력하세요.
+4. **API 키 만들기(Create API Key)**를 클릭하고 필수 항목을 입력하세요.
 5. **키 만들기(Create Key)** 버튼을 클릭하세요.
-6. *프라이빗 토큰(Private Token)**을 복사해서 안전한 곳에 저장하세요.
+6. **프라이빗 토큰(Private Token)**을 복사해서 안전한 곳에 저장하세요.
 이 페이지를 벗어나면 다시 확인할 수 없습니다.
 
 **확인:** 아래 요청을 보내세요. 계정 정보가 포함된 `200 OK` 응답이 오면
@@ -58,7 +58,7 @@ curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
   <https://www.eventbrite.com/api/v3/users/me/>
 ```
 
-**이미 API 키가 있다면:**[API 키 관리 페이지](https://www.eventbrite.com/account-settings/apps)에서
+**이미 API 키가 있다면:** [API 키 관리 페이지](https://www.eventbrite.com/account-settings/apps)에서
 앱 옆의 **API 키, 클라이언트 시크릿 및 토큰 보기**를 클릭하고
 프라이빗 토큰을 복사하세요.
 
@@ -74,7 +74,7 @@ curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
   <https://www.eventbrite.com/api/v3/users/me/>
 ```
 
-`YOUR_PRIVATE_TOKEN`을 앞 단계에서 복사한 토큰으로 바꾸세요.
+`YOUR_PRIVATE_TOKEN`을 이전 단계에서 복사한 토큰으로 바꾸세요.
 
 **쿼리 파라미터 방식 (비권장):** URL 파라미터로 토큰을 전달할 수도 있습니다.
 URL에 포함된 토큰은 서버와 브라우저 로그에 기록되므로
