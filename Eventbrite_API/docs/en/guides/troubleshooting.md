@@ -1,21 +1,83 @@
 # Troubleshooting Guide
 
-Find the cause of a failing Eventbrite API request and fix it. Each section
-below covers a specific error or symptom, its most common causes, and the
-steps to resolve it.
+Find the cause of a failing Eventbrite API request and fix it.
+Each section covers a specific error or symptom, its most common causes,
+and the steps to resolve it.
+
+For a complete list of error codes, see the
+[Error Reference](../api/error-reference.md).
 
 <br>
 
 ## Table of Contents
 
+- [Common Code Mistakes](#common-code-mistakes)
 - [401 Authentication Errors](#401-authentication-errors)
 - [403 Permission Errors](#403-permission-errors)
 - [404 Resource Not Found](#404-resource-not-found)
 - [Missing or Unexpected Response Data](#missing-or-unexpected-response-data)
 - [HTML Content Issues](#html-content-issues)
 - [Rate Limiting](#rate-limiting)
-- [Common Code Mistakes](#common-code-mistakes)
 - [General Debugging Tips](#general-debugging-tips)
+
+<br>
+
+## Common Code Mistakes
+
+Start here if your request is failing and the cause is unclear.
+These mistakes account for the majority of failures before even reaching
+the API.
+
+### Mistake 1 — Token in source code
+
+**Symptom:** Token is exposed in a public repository or build log.
+
+**Fix:** Move the token to an environment variable:
+
+```bash
+export EVENTBRITE_TOKEN=your_token_here
+```
+
+```jsx
+const token = process.env.EVENTBRITE_TOKEN;
+```
+
+**Verify:** Search your codebase for the token string. It should not
+appear in any source file.
+
+<br>
+
+### Mistake 2 — Wrong base URL
+
+**Symptom:** All requests return connection errors or `404`.
+
+**Fix:** Use `eventbriteapi.com`, not `eventbrite.com`:
+
+```
+✗  https://www.eventbrite.com/v3/events/
+✓  https://www.eventbriteapi.com/v3/events/
+```
+
+**Verify:** Retry with the corrected URL.
+
+<br>
+
+### Mistake 3 — Missing Content-Type header
+
+**Symptom:** POST requests return `400 Bad Request` with no clear error.
+
+**Fix:** Include `Content-Type: application/json` in all POST requests:
+
+```bash
+curl --request POST \
+  --header "Authorization: Bearer YOUR_PRIVATE_TOKEN" \
+  --header "Content-Type: application/json" \
+  --data '{ "event": { ... } }' \
+  "https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/"
+```
+
+**Verify:** Retry the request. A `200 OK` response confirms the header
+was the issue.
 
 <br>
 
@@ -34,33 +96,38 @@ steps to resolve it.
 
 ### How to Fix
 
-1. Confirm your request includes the `Authorization` header in this exact
-format — including the `Bearer` prefix and a single space:
+1. Confirm your request includes the `Authorization` header in this
+exact format — including the `Bearer` prefix and a single space:
 
 ```
-   Authorization: Bearer YOUR_PRIVATE_TOKEN
+Authorization: Bearer YOUR_PRIVATE_TOKEN
 ```
 
-1. Copy a fresh token from your [API Keys page](https://www.eventbrite.com/account-settings/apps) and replace the existing one.
-2. Store your token in an environment variable to avoid hard-coding errors:
+2. Copy a fresh token from your
+[API Keys page](https://www.eventbrite.com/account-settings/apps)
+and replace the existing one.
+3. Store your token in an environment variable to avoid hard-coding
+errors:
 
 ```bash
-   export EVENTBRITE_TOKEN=your_token_here
+export EVENTBRITE_TOKEN=your_token_here
 ```
 
 ### Verify
 
-Send this request. A `200 OK` response with your account details confirms
-your token is valid.
+Send the following request. A `200 OK` response with your account
+details confirms your token is valid.
 
 ```bash
-curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
-  <https://www.eventbriteapi.com/v3/users/me/>
+curl --request GET \
+  --header "Authorization: Bearer YOUR_PRIVATE_TOKEN" \
+  "https://www.eventbriteapi.com/v3/users/me/"
 ```
 
 ### Related Documentation
 
 - [Authentication Guide](../guides/authentication.md)
+- [Error Reference — 401](../api/error-reference.md#401-unauthorized)
 
 <br>
 
@@ -77,7 +144,7 @@ curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
 - The event belongs to a different Eventbrite account or organization.
 - The token does not have permission to perform this operation.
 - The event's current status does not allow this action — for example,
-modifying a published event.
+deleting an event that has existing orders.
 
 ### How to Fix
 
@@ -87,12 +154,14 @@ Log in to Eventbrite and verify the event appears under your account.
 organization that owns the event:
 
 ```bash
-   curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
-     <https://www.eventbriteapi.com/v3/users/me/organizations/>
+curl --request GET \
+  --header "Authorization: Bearer YOUR_PRIVATE_TOKEN" \
+  "https://www.eventbriteapi.com/v3/users/me/organizations/"
 ```
 
-1. Check the `status` field in the event response. Some operations are
-restricted based on event status.
+3. Check the `status` field in the event response. Some operations are
+restricted based on event status — for example, events with orders
+cannot be deleted.
 
 ### Verify
 
@@ -102,6 +171,7 @@ issue is resolved.
 ### Related Documentation
 
 - [API Reference](../api/api-reference.md)
+- [Error Reference — 403](../api/error-reference.md#403-forbidden)
 
 <br>
 
@@ -125,17 +195,17 @@ account. The ID is the number at the end of the URL:
 
 ```
 https://www.eventbrite.com/e/my-event-name-12345678901
-																					 ^^^^^^^^^^^
-																 This is your event_id
+                                            ^^^^^^^^^^^
+                                    This is your event_id
 ```
 
-2. Confirm you are using the correct base URL and API version:
+2. Confirm you are using the correct base URL:
 
 ```
 https://www.eventbriteapi.com/v3
 ```
 
-1. Confirm the event is still accessible by opening it in your
+3. Confirm the event is still accessible by opening it in your
 Eventbrite account.
 
 ### Verify
@@ -144,14 +214,15 @@ Run this request with your corrected `event_id`. A `200 OK` response
 confirms the event is accessible.
 
 ```bash
-curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
-  <https://www.eventbriteapi.com/v3/events/{event_id}/>
+curl --request GET \
+  --header "Authorization: Bearer YOUR_PRIVATE_TOKEN" \
+  "https://www.eventbriteapi.com/v3/events/{event_id}/"
 ```
 
 ### Related Documentation
 
-- [Step-by-Step Tutorial](../getting-started/step-by-step.md)
 - [API Reference](../api/api-reference.md)
+- [Error Reference — 404](../api/error-reference.md#404-not-found)
 
 <br>
 
@@ -172,27 +243,19 @@ the event is published.
 
 ### How to Fix
 
-1. Check the `status` field in the response:
-
-```bash
-   curl -H "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
-     <https://www.eventbriteapi.com/v3/events/{event_id}/>
-```
-
-If `"status": "draft"`, publish the event or use a published event
-for testing.
-
-1. Add null checks before accessing nested fields in your code:
+1. Check the `status` field in the response. If `"status": "draft"`,
+publish the event or use a published event for testing.
+2. Add null checks before accessing nested fields in your code:
 
 ```jsx
-   const description = event?.description?.text ?? '';
-   const capacity = event?.capacity ?? null;
+const description = event?.description?.text ?? "";
+const capacity    = event?.capacity          ?? null;
 ```
 
 ### Verify
 
-Re-run the request after publishing the event or switching to a published
-test event. All expected fields should now be present.
+Re-run the request after publishing the event or switching to a
+published test event. All expected fields should now be present.
 
 ### Related Documentation
 
@@ -211,29 +274,29 @@ test event. All expected fields should now be present.
 ### Possible Causes
 
 - `html` field is passed to a context that expects plain text.
-- HTML content is rendered without sanitization in an untrusted context.
+- HTML content is rendered without sanitization.
 
 ### How to Fix
 
-1. Use `name.text` or `description.text` when plain string content
-is required — for example, in notifications or log output:
+1. Use `name.text` or `description.text` for plain string contexts —
+notifications, logs, email subjects:
 
 ```jsx
-   sendNotification({ title: event.name.text });
+sendNotification({ title: event.name.text });
 ```
 
-1. Use `name.html` or `description.html` only when rendering to a
-trusted web interface:
+2. Use `name.html` or `description.html` only when rendering to a
+web interface:
 
 ```jsx
-   container.innerHTML = event.description.html;
+container.innerHTML = event.description.html;
 ```
 
-1. If rendering HTML from an untrusted source, sanitize it first:
+3. If rendering HTML from an untrusted source, sanitize it first:
 
 ```jsx
-   import DOMPurify from 'dompurify';
-   container.innerHTML = DOMPurify.sanitize(event.description.html);
+import DOMPurify from "dompurify";
+container.innerHTML = DOMPurify.sanitize(event.description.html);
 ```
 
 ### Verify
@@ -265,108 +328,41 @@ raw text, and the page layout should remain intact.
 
 1. Check the rate limit headers in the API response to see how many
 requests remain:
-    
-    
-    | Header | Description |
-    | --- | --- |
-    | `X-Apiary-RateLimit-Limit` | Maximum requests allowed in this window |
-    | `X-Apiary-RateLimit-Remaining` | Requests remaining before the limit resets |
-2. Add a delay between requests if you are making bulk calls:
 
-```jsx
-   async function fetchWithDelay(ids, delayMs = 500) {
-     const results = [];
-     for (const id of ids) {
-       const res = await fetch(
-         `https://www.eventbriteapi.com/v3/events/${id}/`,
-         { headers: { Authorization: `Bearer ${process.env.EVENTBRITE_TOKEN}` } }
-       );
-       results.push(await res.json());
-       await new Promise(resolve => setTimeout(resolve, delayMs));
-     }
-     return results;
-   }
-```
+| Header | Description |
+| --- | --- |
+| `X-Apiary-RateLimit-Limit` | Maximum requests allowed in this window |
+| `X-Apiary-RateLimit-Remaining` | Requests remaining before the limit resets |
+2. Wait until the window resets before sending additional requests.
+3. For bulk operations, add a delay between requests to stay within
+the limit. See [Code Examples](../examples/code-examples.md) for a
+working implementation.
 
 ### Verify
 
-Monitor `X-Apiary-RateLimit-Remaining` in subsequent responses. The
-value should stay above zero.
+Monitor `X-Apiary-RateLimit-Remaining` in subsequent responses.
+The value should stay above zero.
 
 ### Related Documentation
 
-- [API Reference](../api/api-reference.md)
-
-<br>
-
-## Common Code Mistakes
-
-### Mistake 1 — Token in source code
-
-**Symptom:** Token is exposed in a public repository or build log.
-
-**Fix:** Move the token to an environment variable:
-
-```bash
-# Set the environment variable
-export EVENTBRITE_TOKEN=your_token_here
-```
-
-```jsx
-// Read it in code
-const token = process.env.EVENTBRITE_TOKEN;
-```
-
-**Verify:** Search your codebase for the token string. It should not
-appear in any source file.
-
-<br>
-
-### Mistake 2 — Missing Content-Type header
-
-**Symptom:** POST requests return `400 Bad Request` with no clear error.
-
-**Fix:** Include `Content-Type: application/json` in all POST requests:
-
-```bash
-curl --request POST \\
-  --header "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
-  --header "Content-Type: application/json" \\
-  --data '{ "event": { ... } }' \\
-  "<https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/>"
-```
-
-**Verify:** Retry the request. A `200 OK` response confirms the header
-was the issue.
-
-<br>
-
-### Mistake 3 — Wrong base URL
-
-**Symptom:** All requests return connection errors or `404`.
-
-**Fix:** Use `eventbriteapi.com`, not `eventbrite.com`:
-
-```
-✗  https://www.eventbrite.com/v3/events/
-✓  https://www.eventbriteapi.com/v3/events/
-```
-
-**Verify:** Retry with the corrected URL.
+- [Error Reference — 429](../api/error-reference.md#429-too-many-requests)
+- [Code Examples](../examples/code-examples.md)
 
 <br>
 
 ## General Debugging Tips
 
-Follow these steps in order when a request fails and the cause is unclear.
+Follow these steps in order when a request fails and the cause is
+unclear.
 
-1. **Test in the Eventbrite console first.** If the request works in the
-console but not in code, the issue is in your headers or token handling.
+1. **Test in the Eventbrite console first.** If the request works in
+the console but not in code, the issue is in your headers or token
+handling.
 2. **Import the request into Postman.** Use the console's
-**Show Code Example** → **cURL** output. Postman shows you exactly which
+**Show Code Example → cURL** output. Postman shows you exactly which
 headers are being sent.
-3. **Log the full response during development** — including status code,
-headers, and body. Error descriptions are in the `error_description`
+3. **Log the full response during development** — including status
+code, headers, and body. Error details are in the `error_description`
 field of the response body.
 4. **Compare against a working request.** Copy a working cURL example
 from the [API Reference](../api/api-reference.md) and diff it against
@@ -376,11 +372,10 @@ your failing request line by line.
 
 ## Next Steps
 
-- [Authentication Guide]()
-- [API Reference]()
-- [Step-by-Step Tutorial]()
-- [Response Handling Guide]()
-- [Code Examples]()
-- [SDKs]()
+- [Authentication Guide](../guides/authentication.md)
+- [API Reference](../api/api-reference.md)
+- [Error Reference](../api/error-reference.md)
+- [Response Handling Guide](../guides/response_handling.md)
+- [Code Examples](../examples/code-examples.md)
 
 <br>

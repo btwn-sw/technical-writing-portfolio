@@ -1,13 +1,13 @@
 # Quick Start Guide
 
-Make your first Eventbrite API request in under 3 minutes. This guide covers
-the minimum steps to authenticate, call an endpoint, and verify a live
-response. No prior experience with the Eventbrite API is required.
+Make your first Eventbrite API request in under 3 minutes. This guide
+covers the minimum steps to authenticate, call an endpoint, and verify
+a live response. No prior experience with the Eventbrite API is required.
 
 **Prerequisites:**
 
 - An active Eventbrite account
-- cURL, Postman, or access to a web browser
+- cURL or a web browser
 - A basic understanding of HTTP requests
 
 <br>
@@ -22,8 +22,8 @@ response. No prior experience with the Eventbrite API is required.
 
 ## Step 1: Get Your Private Token
 
-All Eventbrite API requests require a Private Token in the `Authorization`
-header.
+All Eventbrite API requests require a Private Token in the
+`Authorization` header.
 
 1. Log in to [Eventbrite](https://www.eventbrite.com/signin/).
 2. Go to **Account Settings → Developer Links → API Keys**.
@@ -41,34 +41,27 @@ For full token setup details, see the
 This request retrieves details for an existing Eventbrite event.
 Replace `{event_id}` with a valid event ID from your Eventbrite account.
 
-**Option A — cURL**
-
 ```bash
-curl --request GET \\
-  --header "Authorization: Bearer YOUR_PRIVATE_TOKEN" \\
-  <https://www.eventbriteapi.com/v3/events/{event_id}/>
+curl --request GET \
+  --header "Authorization: Bearer YOUR_PRIVATE_TOKEN" \
+  "https://www.eventbriteapi.com/v3/events/{event_id}/"
 ```
 
-**Option B — Eventbrite API Console**
-
-1. Open the [Eventbrite API Reference](https://www.eventbrite.com/platform/api).
-2. Navigate to **Reference → Event → Retrieve an Event**.
-3. Click **Try**.
-4. Enter a valid `event_id` under URI Parameters.
-5. Add the following Authorization header:
+To find your `event_id`, open the event in your Eventbrite account.
+The ID is the number at the end of the event URL:
 
 ```
-Authorization: Bearer YOUR_PRIVATE_TOKEN
+https://www.eventbrite.com/e/my-event-name-12345678901
+                                           ^^^^^^^^^^^
+                                    This is your event_id
 ```
-
-6. Click **Call Resource**.
 
 <br>
 
 ## Step 3: Verify the Response
 
-A successful request returns `200 OK` with a JSON object containing the 
-event details.
+A successful request returns `200 OK` with a JSON object containing
+the event details.
 
 ```json
 {
@@ -79,21 +72,23 @@ event details.
 }
 ```
 
-If you receive a `401 Unauthorized` error, check that your token is correct 
-and included in the `Authorization` header — not as a URL parameter.
+If you receive a `401 Unauthorized` error, check that your token is
+correct and included in the `Authorization` header — not as a URL
+parameter. For a full list of error codes and fixes, see the
+[Error Reference](../api/error-reference.md).
 
 <br>
 
 ## Next Steps
 
-You have made your first successful API request. 
+You have made your first successful API request.
 Choose what to do next based on your goal.
 
 | Goal | Guide |
-|---|---|
-| Learn the full API flow step by step | [Step-by-Step Tutorial](../getting-started/step-by-step.md) |
+| --- | --- |
+| Learn the full API flow step by step | [First API Call Tutorial](../tutorials/first-api-call.md) |
 | See all available endpoints | [API Reference](../api/api-reference.md) |
 | Handle responses safely in code | [Response Handling Guide](../guides/response_handling.md) |
-| Fix a problem | [Troubleshooting](../guides/troubleshooting.md) |
+| Fix a problem | [Troubleshooting Guide](../guides/troubleshooting.md) |
 
 <br>
