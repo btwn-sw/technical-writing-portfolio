@@ -1,20 +1,21 @@
 # Response Handling Guide
 
-Eventbrite API responses contain nested JSON objects, optional fields, and
-HTML-formatted content. This guide shows you how to read the response
-structure, handle nullable and optional fields safely, and process
-HTML content correctly.
+Eventbrite API responses follow consistent patterns that affect how you
+read event data, handle missing fields, and process HTML content safely.
+This guide explains why those patterns exist and how to work with them
+correctly in your application.
 
-> **Note:** This guide focuses on response consumption. For endpoint
-schemas and parameter definitions, see the
+For endpoint schemas and parameter definitions, see the
 [API Reference](../api/api-reference.md).
-> 
+For a full list of error codes, see the
+[Error Reference](../api/error-reference.md).
 
 <br>
 
 ## Table of Contents
 
-- [Response Structure](#response-structure)
+- [Why Responses Are Structured This Way](#why-responses-are-structured-this-way)
+- [The Event Object](#the-event-object)
 - [Handling HTML-Formatted Content](#handling-html-formatted-content)
 - [Handling Optional and Nullable Fields](#handling-optional-and-nullable-fields)
 - [Error Responses](#error-responses)
@@ -22,19 +23,46 @@ schemas and parameter definitions, see the
 
 <br>
 
-## Response Structure
+## Why Responses Are Structured This Way
 
-### Event Object
+Understanding the design decisions behind the response format helps you
+handle edge cases correctly rather than working around them by trial
+and error.
 
-Most Event-related endpoints return an Event object. The object contains
-four categories of fields:
+**Why do `name` and `description` return both `text` and `html`?**
+Eventbrite events are created through a rich-text editor that produces
+HTML. However, not every consumer of the API — notifications, logs,
+search indexes, mobile apps — can render HTML safely. Returning both
+variants lets each consumer pick the right format without having to
+strip or parse HTML themselves.
+
+**Why are some fields `null` instead of empty strings?**
+Eventbrite distinguishes between a field that has not been set and a
+field that has been deliberately cleared. A `null` description means
+the organizer has not written one yet — it is not an empty string. This
+lets your application display "No description yet" rather than blank
+space, and avoids rendering an empty HTML tag.
+
+**Why do time fields include both `utc` and `local`?**
+Event times need to be communicated in two contexts: the organizer's
+local timezone (for display on the event page) and a timezone-neutral
+format (for scheduling, calendar exports, and cross-timezone comparison).
+The `utc` field is always present and consistent; the `local` field
+depends on the timezone set by the organizer.
+
+<br>
+
+## The Event Object
+
+Most Event-related endpoints return an Event object. Its fields fall
+into four categories:
 
 | Category | Fields |
 | --- | --- |
-| Identification | `id` |
-| Text content | `name`, `description` — each contains both `text` and `html` variants |
+| Identification | `id`, `url` |
+| Text content | `name`, `description` — each contains `text` and `html` variants |
 | Scheduling | `start`, `end` — each contains `utc`, `local`, and `timezone` |
-| Metadata | `status`, `currency`, `capacity`, `url` |
+| Metadata | `status`, `currency`, `capacity` |
 
 **Example response:**
 
@@ -62,32 +90,46 @@ four categories of fields:
   "status": "live",
   "currency": "USD",
   "capacity": 100,
-  "url": "<https://www.eventbrite.com/e/12345>"
+  "url": "https://www.eventbrite.com/e/12345"
 }
 ```
 
-### Key Fields
-
-| Field | Type | Required | Description |
-| --- | --- | --- | --- |
-| `id` | String | Yes | Unique identifier for the event |
-| `name` | Object | Yes | Event name — contains `text` (plain text) and `html` (HTML-formatted) variants |
-| `description` | Object | No | Event description — contains `text` and `html` variants. May be `null` for draft events. |
-| `status` | String | Yes | Event status — `draft`, `live`, `started`, `ended`, `completed`, or `canceled` |
-| `start` | Object | Yes | Start time — contains `utc`, `local`, and `timezone` |
-| `end` | Object | Yes | End time — contains `utc`, `local`, and `timezone` |
-| `hide_start_date` | Boolean | No | When `true`, the start date is hidden from the public event page |
-| `hide_end_date` | Boolean | No | When `true`, the end date is hidden from the public event page |
+For the full field reference, see
+[API Reference — Retrieve an Event](../api/api-reference.md#retrieve-an-event).
 
 <br>
 
 ## Handling HTML-Formatted Content
 
-Eventbrite returns HTML content in two patterns.
+Eventbrite returns HTML content in two patterns depending on the endpoint.
 
-### Pattern 1 — Full HTML response
+### Pattern 1 — Dual text/html fields
 
-Some endpoints return a raw HTML string as the entire response body.
+The most common pattern. Text content objects contain both a plain text
+variant and an HTML variant for the same value.
+
+```json
+"name": {
+  "text": "My Event",
+  "html": "<p>My Event</p>"
+}
+```
+
+Use `text` when the consumer expects a plain string — notifications,
+logs, search indexes, email subjects. Use `html` when rendering in a
+web interface.
+
+```jsx
+// Render in UI
+container.innerHTML = event.description.html;
+
+// Pass to notification system
+sendNotification({ title: event.name.text });
+```
+
+### Pattern 2 — Full HTML response
+
+Some endpoints return the entire response body as a raw HTML string.
 
 **Endpoint:**
 
@@ -99,115 +141,90 @@ GET /events/{event_id}/description/
 
 ```json
 {
-  "description": "<div>Example summary!</div>\\n<div><p>My <em>event's</em> description goes <strong>here</strong>.</p></div>"
+  "description": "<div>Example summary!</div>\n<div><p>My <em>event's</em> description goes <strong>here</strong>.</p></div>"
 }
 ```
 
-Use an HTML parser to render this content. Do not display the raw string
-directly to users.
+Use an HTML parser to render this content. Never pass the raw string
+directly to `innerHTML` without sanitizing it first, especially if the
+source is not fully trusted.
 
-### Pattern 2 — Dual text/html fields
-
-Some endpoints return objects that contain both a plain text variant
-and an HTML variant for the same content.
-
-**Example — Ticket Buyer Settings:**
-
+```jsx
+import DOMPurify from "dompurify";
+container.innerHTML = DOMPurify.sanitize(event.description);
 ```
-GET /events/{event_id}/ticket_buyer_settings/
-```
-
-**Response:**
-
-```json
-{
-  "confirmation_message": {
-    "text": "Confirmation Message",
-    "html": "<h1>Confirmation Message</h1>"
-  },
-  "instructions": {
-    "text": "Instructions",
-    "html": "<h1>Instructions</h1>"
-  }
-}
-```
-
-Use `text` when you need plain string content — for example, in
-notifications or metadata. Use `html` when rendering content in a
-web interface.
 
 <br>
 
 ## Handling Optional and Nullable Fields
 
-Not all fields are present in every response. Fields may be missing or
-`null` in the following cases:
+Not all fields are present in every response. A field may be missing
+or `null` in the following cases:
 
-- Draft events with incomplete data
+- Draft events with incomplete data — `description` is `null` until
+the organizer fills it in
+- Fields the organizer has not set — `capacity` is `null` when no
+limit has been configured
 - Fields the token does not have permission to access
-- Fields the event organizer has not filled in
 
-Check for field existence before accessing nested properties.
+Always check for field existence before accessing nested properties.
 
-**JavaScript example:**
+**JavaScript:**
 
 ```jsx
-const name = event?.name?.text ?? 'Untitled Event';
-const description = event?.description?.text ?? '';
-const capacity = event?.capacity ?? null;
+const name        = event?.name?.text        ?? "Untitled Event";
+const description = event?.description?.text ?? "";
+const capacity    = event?.capacity          ?? null;
 ```
 
-**Python example:**
+**Python:**
 
 ```python
-name = event.get('name', {}).get('text', 'Untitled Event')
-description = event.get('description', {}).get('text', '')
-capacity = event.get('capacity')
+name        = event.get("name", {}).get("text", "Untitled Event")
+description = event.get("description", {}).get("text", "")
+capacity    = event.get("capacity")
 ```
 
 <br>
 
 ## Error Responses
 
-All Event endpoints return a consistent error format:
+All Event endpoints return errors in a consistent format:
 
 ```json
 {
   "error": "ERROR_CODE",
-  "error_description": "Human-readable explanation",
+  "error_description": "A human-readable explanation of the error.",
   "status_code": 400
 }
 ```
 
-### Common Error Codes
+Use the `error` field to identify the error type in your application
+logic. Use `error_description` for logging and debugging — it is not
+intended for display to end users.
 
-| Status code | Error code | Cause | Action |
-| --- | --- | --- | --- |
-| `400` | `FIELD_INVALID` | The request contains an invalid or conflicting parameter | Check the request body and parameters against the [API Reference](../api/api-reference.md) |
-| `401` | `NO_AUTH` | No token provided, or the token is invalid | Include a valid Private Token in the `Authorization` header |
-| `403` | `NOT_AUTHORIZED` | The token does not have permission to access this resource | Check token scopes or use a token with the correct permissions |
-| `404` | `NOT_FOUND` | The requested event does not exist | Verify the `event_id` is correct and the event has not been deleted |
+For the full list of error codes and resolution steps, see the
+[Error Reference](../api/error-reference.md).
 
 <br>
 
 ## Best Practices
 
-### Extract only the fields you need
-
+**Extract only the fields you need.**
 Avoid storing the full response object. Access only the fields your
-application uses.
+application uses. This reduces the impact of future API changes and
+keeps your data model clean.
 
 ```jsx
-// Extract only what you need
 const { id, status } = response;
-const name = response.name?.text;
+const name     = response.name?.text;
 const startUtc = response.start?.utc;
 ```
 
-### Separate HTML from plain text
-
+**Separate HTML from plain text.**
 Never use `html` fields where plain text is expected, and never pass
-`text` fields to an HTML renderer.
+`text` fields to an HTML renderer. Mixing these causes either broken
+layouts or raw HTML appearing as visible text.
 
 ```jsx
 // Display in UI — use html
@@ -217,20 +234,20 @@ container.innerHTML = event.name.html;
 sendNotification({ title: event.name.text });
 ```
 
-### Convert errors to user-facing messages
-
-Map API error codes to messages your users understand.
+**Map error codes to user-facing messages.**
+The API's `error_description` is written for developers, not users.
+Map each error code to a message your users can understand and act on.
 
 ```jsx
 const ERROR_MESSAGES = {
-  NO_AUTH:        'Authentication failed. Check your API token.',
-  NOT_AUTHORIZED: 'You do not have permission to access this event.',
-  NOT_FOUND:      'This event could not be found.',
-  FIELD_INVALID:  'The request contained an invalid value.',
+  NO_AUTH:        "Authentication failed. Check your API token.",
+  NOT_AUTHORIZED: "You do not have permission to access this event.",
+  NOT_FOUND:      "This event could not be found.",
+  FIELD_INVALID:  "The request contained an invalid value.",
 };
 
 function handleApiError(error) {
-  return ERROR_MESSAGES[error.error] ?? 'An unexpected error occurred.';
+  return ERROR_MESSAGES[error.error] ?? "An unexpected error occurred.";
 }
 ```
 
@@ -238,8 +255,9 @@ function handleApiError(error) {
 
 ## Next Steps
 
-- [API Reference]()
-- [Authentication Guide]()
-- [Code Examples]()
+- [API Reference](../api/api-reference.md)
+- [Error Reference](../api/error-reference.md)
+- [Authentication Guide](../guides/authentication.md)
+- [Code Examples](../examples/code-examples.md)
 
 <br>
