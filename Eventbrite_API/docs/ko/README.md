@@ -120,7 +120,7 @@ Eventbrite의 공개 API 문서를 바탕으로 작성됐으며,
 문서 구조와 모범 사례에 초점을 맞추고 있습니다.
 
 공식 Eventbrite API 문서는
-[eventbrite.com/platform/api]를
+[eventbrite.com/platform/api](https://www.eventbrite.com/platform/api)를
 참고하세요.
 
 <br>
