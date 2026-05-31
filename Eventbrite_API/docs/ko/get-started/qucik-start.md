@@ -48,7 +48,7 @@ curl --request GET \
 ```
 
 `event_id`를 찾으려면 Eventbrite 계정에서 이벤트를 여세요.
-ID는 이벤트 URL 끝의 숫자입니다.
+ID는 이벤트 URL 끝의 11자리 숫자입니다.
 
 ```
 https://www.eventbrite.com/e/my-event-name-12345678901
@@ -92,9 +92,9 @@ https://www.eventbrite.com/e/my-event-name-12345678901
 
 | 목표 | 가이드 |
 | --- | --- |
-| 전체 API 흐름을 단계별로 학습하고 싶어요. | 첫 API 호출 튜토리얼 |
-| 사용 가능한 모든 엔드포인트를 보고 싶어요. | API 레퍼런스 |
-| 코드에서 응답을 안전하게 처리하고 싶어요. | 응답 처리 가이드 |
-| 문제를 해결하고 싶어요. | 트러블슈팅 가이드 |
+| 전체 API 흐름을 단계별로 학습하고 싶어요. | [첫 API 호출 튜토리얼](../tutorials/first-api-call.md) |
+| 사용 가능한 모든 엔드포인트를 보고 싶어요. | [API 레퍼런스](../api/api-reference.md) |
+| 코드에서 응답을 안전하게 처리하고 싶어요. | [응답 처리 가이드](../guides/response-handling.md) |
+| 문제를 해결하고 싶어요. | [트러블슈팅 가이드](../guides/troubleshooting.md) |
 
 <br>
