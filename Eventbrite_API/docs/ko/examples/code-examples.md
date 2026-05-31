@@ -1,7 +1,5 @@
 # 코드 예제
 
-# 코드 예제
-
 아래 예제를 복사해서 Eventbrite API 요청에 바로 활용하세요.
 이벤트 조회, 생성, 수정, 삭제 작업을 cURL, JavaScript, Node.js, Python으로 보여줍니다.
 전체 파라미터와 응답 필드 정의는 [API 레퍼런스](../api/api-reference.md)를 참고하세요.
@@ -377,7 +375,7 @@ import requests
 
 def list_events(organization_id):
     response = requests.get(
-        f"<https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/>",
+        f"https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/",
         headers={"Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}"}
     )
     response.raise_for_status()
@@ -392,7 +390,7 @@ import requests
 
 def get_event(event_id):
     response = requests.get(
-        f"<https://www.eventbriteapi.com/v3/events/{event_id}/>",
+        f"https://www.eventbriteapi.com/v3/events/{event_id}/",
         headers={"Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}"}
     )
     response.raise_for_status()
@@ -412,7 +410,7 @@ import requests
 
 def create_event(organization_id, event_data):
     response = requests.post(
-        f"<https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/>",
+        f"https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/",
         headers={
             "Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}",
             "Content-Type": "application/json"
@@ -431,7 +429,7 @@ import requests
 
 def update_event(event_id, updates):
     response = requests.post(
-        f"<https://www.eventbriteapi.com/v3/events/{event_id}/>",
+        f"https://www.eventbriteapi.com/v3/events/{event_id}/",
         headers={
             "Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}",
             "Content-Type": "application/json"
@@ -450,7 +448,7 @@ import requests
 
 def delete_event(event_id):
     response = requests.delete(
-        f"<https://www.eventbriteapi.com/v3/events/{event_id}/>",
+        f"https://www.eventbriteapi.com/v3/events/{event_id}/",
         headers={"Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}"}
     )
     response.raise_for_status()
