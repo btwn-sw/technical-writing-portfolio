@@ -144,7 +144,7 @@ The mechanism the Eventbrite API uses to return large sets of results
 across multiple pages. Each paginated response includes a `pagination`
 object containing `has_more_items`, `continuation`, `page_number`,
 `page_size`, `page_count`, and `object_count`.
-See [Pagination Guide](https://claude.ai/guides/pagination-guide.md).
+See [Pagination Guide](../guides/pagination.md).
 
 **Private Token**
 A long-lived personal access token tied to a specific Eventbrite account.
@@ -152,7 +152,7 @@ Used in the `Authorization` header to authenticate API requests. Suitable
 for testing and server-side integrations where only one account is
 involved. Generate from the
 [Eventbrite API Keys page](https://www.eventbrite.com/account-settings/apps).
-See [Authentication Guide](../guides/).
+See [Authentication Guide](../guides/authentication.md).
 
 <br>
 
