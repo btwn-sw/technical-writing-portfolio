@@ -1,9 +1,10 @@
 # 코드 예제
 
+# 코드 예제
+
 아래 예제를 복사해서 Eventbrite API 요청에 바로 활용하세요.
-각 섹션은 같은 작업을 다른 언어나 도구로 보여줍니다.
-전체 파라미터와 응답 필드 정의는
-[API 레퍼런스](../api/api-reference.md)를 참고하세요.
+이벤트 조회, 생성, 수정, 삭제 작업을 cURL, JavaScript, Node.js, Python으로 보여줍니다.
+전체 파라미터와 응답 필드 정의는 [API 레퍼런스](../api/api-reference.md)를 참고하세요.
 
 <br>
 
@@ -20,7 +21,7 @@
 
 <br>
 
-## 인증
+### 인증
 
 모든 예제는 환경 변수에서 프라이빗 토큰을 읽습니다.
 예제를 실행하기 전에 아래 명령어로 토큰을 한 번만 설정하세요.
@@ -104,8 +105,7 @@ curl --request DELETE \
 
 ## JavaScript
 
-아래 예제는 모든 최신 브라우저에서 지원하는 Fetch API를 사용합니다.
-`YOUR_PRIVATE_TOKEN`을 내 토큰으로 바꾸세요.
+아래 예제는 모든 최신 브라우저에서 지원하는 Fetch API를 사용합니다. 토큰은 환경 변수 또는 안전한 설정에서 사용하고, 소스 코드에 직접 포함하지 마세요.
 
 ### 조직별 이벤트 목록 조회
 
@@ -115,7 +115,7 @@ async function listEvents(organizationId) {
     `https://www.eventbriteapi.com/v3/organizations/${organizationId}/events/`,
     {
       headers: {
-        "Authorization": "Bearer YOUR_PRIVATE_TOKEN"
+        "Authorization": `Bearer ${process.env.EVENTBRITE_TOKEN}`
       }
     }
   );
@@ -136,7 +136,7 @@ async function getEvent(eventId) {
     `https://www.eventbriteapi.com/v3/events/${eventId}/`,
     {
       headers: {
-        "Authorization": "Bearer YOUR_PRIVATE_TOKEN"
+        "Authorization": `Bearer ${process.env.EVENTBRITE_TOKEN}`
       }
     }
   );
@@ -158,7 +158,7 @@ async function createEvent(organizationId, eventData) {
     {
       method: "POST",
       headers: {
-        "Authorization": "Bearer YOUR_PRIVATE_TOKEN",
+        "Authorization": `Bearer ${process.env.EVENTBRITE_TOKEN}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ event: eventData })
@@ -182,7 +182,7 @@ async function updateEvent(eventId, updates) {
     {
       method: "POST",
       headers: {
-        "Authorization": "Bearer YOUR_PRIVATE_TOKEN",
+        "Authorization": `Bearer ${process.env.EVENTBRITE_TOKEN}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({ event: updates })
@@ -206,7 +206,7 @@ async function deleteEvent(eventId) {
     {
       method: "DELETE",
       headers: {
-        "Authorization": "Bearer YOUR_PRIVATE_TOKEN"
+        "Authorization": `Bearer ${process.env.EVENTBRITE_TOKEN}`
       }
     }
   );
@@ -377,7 +377,7 @@ import requests
 
 def list_events(organization_id):
     response = requests.get(
-        f"https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/",
+        f"<https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/>",
         headers={"Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}"}
     )
     response.raise_for_status()
@@ -392,7 +392,7 @@ import requests
 
 def get_event(event_id):
     response = requests.get(
-        f"https://www.eventbriteapi.com/v3/events/{event_id}/",
+        f"<https://www.eventbriteapi.com/v3/events/{event_id}/>",
         headers={"Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}"}
     )
     response.raise_for_status()
@@ -412,7 +412,7 @@ import requests
 
 def create_event(organization_id, event_data):
     response = requests.post(
-        f"https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/",
+        f"<https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/>",
         headers={
             "Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}",
             "Content-Type": "application/json"
@@ -431,7 +431,7 @@ import requests
 
 def update_event(event_id, updates):
     response = requests.post(
-        f"https://www.eventbriteapi.com/v3/events/{event_id}/",
+        f"<https://www.eventbriteapi.com/v3/events/{event_id}/>",
         headers={
             "Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}",
             "Content-Type": "application/json"
@@ -450,7 +450,7 @@ import requests
 
 def delete_event(event_id):
     response = requests.delete(
-        f"https://www.eventbriteapi.com/v3/events/{event_id}/",
+        f"<https://www.eventbriteapi.com/v3/events/{event_id}/>",
         headers={"Authorization": f"Bearer {os.environ['EVENTBRITE_TOKEN']}"}
     )
     response.raise_for_status()
@@ -476,7 +476,7 @@ const startTime   = event.start?.utc        ?? null;
 ### HTML과 일반 텍스트 분리하기
 
 웹 인터페이스에서 렌더링할 때는 `html` 필드를 사용하세요.
-알림이나 로그 같은 일반 문자열 컨텍스트에서는 `text` 필드를 사용하세요.
+알림이나 로그 같은 일반 문자열이 필요한 곳에는 `text` 필드를 사용하세요.
 
 ```jsx
 // UI에 렌더링
@@ -570,8 +570,9 @@ async function getAllEvents(organizationId) {
 
 ## 요청 제한
 
-대량 작업을 처리할 때는 요청 사이에 시간 간격을 두고
-허용된 요청 수를 유지하세요.
+대량 작업을 처리할 때는 요청 사이에 시간 간격을 두고 허용된 요청 수를 유지하세요.
+
+아래 예제는 요청 사이에 500ms 간격을 둡니다. 500ms 간격은 시간당 2,000건 제한 내에서 안전하게 작동하는 기본값입니다. 처리량을 높여야 한다면 간격을 줄이고 `X-Apiary-RateLimit-Remaining` 헤더를 모니터링하세요.
 
 ```jsx
 import fetch from "node-fetch";
