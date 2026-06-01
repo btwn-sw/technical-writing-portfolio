@@ -4,7 +4,7 @@ Look up endpoints, parameters, and response fields for the Eventbrite API.
 This reference documents Event-related endpoints.
 For authentication setup, see the [Authentication Guide](../guides/authentication.md).
 
-<br>
+<br> 
 
 ## Table of Contents
 

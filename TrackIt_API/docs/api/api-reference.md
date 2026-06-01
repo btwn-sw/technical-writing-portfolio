@@ -3,7 +3,7 @@
 Trackit is a lightweight personal task management API that helps users organize tasks across daily routines, work, hobbies, and more.
 
 ### Table of Contents
-
+ 
 - [Overview](#overview)
 - [Authentication](#authentication)
 - [Error Handling](#error-handling)
