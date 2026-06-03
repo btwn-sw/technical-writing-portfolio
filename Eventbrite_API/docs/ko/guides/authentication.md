@@ -107,7 +107,7 @@ https://www.eventbriteapi.com/v3/users/me/?token=YOUR_PRIVATE_TOKEN
 사용자가 자신의 Eventbrite 계정으로 로그인하는 웹 앱처럼,
 사용자별 인증이 필요한 경우에 서버 사이드 OAuth 방식을 사용하세요.
 
-**사전 요구사항:**[API Keys 페이지](https://www.eventbrite.com/account-settings/apps)에서
+**사전 요구사항: **[API Keys 페이지](https://www.eventbrite.com/account-settings/apps)에서
 발급받은 API 키와 클라이언트 시크릿.
 
 ### 1단계. 사용자를 리디렉션하기
@@ -155,6 +155,6 @@ curl --request POST \
 
 - [API 레퍼런스](../api/api-reference.md)
 - [코드 예제](../examples/code-examples.md)
-- [빠른 시작 가이드](../get-started/qucik-start.md)
+- [빠른 시작 가이드](../get-started/quick-start.md)
 
 <br>
