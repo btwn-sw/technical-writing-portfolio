@@ -44,6 +44,6 @@ documentation, and explanations. Content is based on publicly available
 Eventbrite API documentation and is not intended for production use.
 
 For official Eventbrite API documentation, see Eventbrite
-[API v3](https://www.eventbrite.com/platform/).
+[API v3](https://www.eventbrite.com/platform/docs/introduction).
 
 <br>
