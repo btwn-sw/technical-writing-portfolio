@@ -73,7 +73,7 @@ curl --request POST \
   "https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/"
 ```
 
-**확인:** 요청을 다시 보내세요. `200 OK` 응답이 오면
+**확인:** 요청을 다시 보내세요. `200 OK` 응답이 반환되면
 헤더 누락이 원인입니다.
 
 <br>
@@ -110,7 +110,7 @@ export EVENTBRITE_TOKEN=your_token_here
 
 ### 확인
 
-아래 요청을 보내세요. 계정 정보가 포함된 `200 OK` 응답이 오면
+아래 요청을 보내세요. 계정 정보가 포함된 `200 OK` 응답이 반환되면
 토큰이 유효한 것입니다.
 
 ```bash
@@ -160,7 +160,7 @@ curl --request GET \
 
 ### 확인
 
-원래 요청을 다시 보내세요. `200 OK` 응답이 오면 권한 문제가 해결된
+원래 요청을 다시 보내세요. `200 OK` 응답이 반환되면 권한 문제가 해결된
 것입니다.
 
 ### 관련 문서
