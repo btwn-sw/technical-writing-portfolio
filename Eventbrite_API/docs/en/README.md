@@ -123,6 +123,6 @@ The content is based on publicly available Eventbrite API documentation
 and focuses on documentation structure and best practices.
 
 For official Eventbrite API documentation, see
-[eventbrite.com/platform/api](https://www.eventbrite.com/platform?aff=oddtdtcreator).
+[eventbrite.com/platform/api](https://www.eventbrite.com/platform/docs/introduction).
 
 <br>
