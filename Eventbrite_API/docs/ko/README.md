@@ -33,7 +33,7 @@ docs/ko/
 
 | 문서 | 유형 | 설명 |
 | --- | --- | --- |
-| [빠른 시작 가이드](../ko/get-started/qucik-start.md) | How-to | 3분 안에 첫 API 요청 성공시키기 |
+| [빠른 시작 가이드](../ko/get-started/quick-start.md) | How-to | 3분 안에 첫 API 요청 성공시키기 |
 | [첫 API 호출 튜토리얼](../ko/tutorials/first-api-call.md) | Tutorial | Eventbrite API 콘솔과 Postman을 사용한 단계별 가이드 |
 | [인증 가이드](../ko/guides/authentication.md) | How-to | 자격 증명 유형 선택, 프라이빗 토큰 생성, 요청 인증 방법 |
 | [페이지네이션 가이드](../ko/guides/pagination.md) | How-to | 컨티뉴에이션 토큰으로 여러 페이지의 이벤트 가져오기 |
@@ -51,7 +51,7 @@ docs/ko/
 
 ### 빠르게 첫 API 요청을 보내고 싶어요
 
-👉 [**빠른 시작 가이드**](../ko/get-started/qucik-start.md)
+👉 [**빠른 시작 가이드**](../ko/get-started/quick-start.md)
 
 3분 안에 프라이빗 토큰으로 인증하고 이벤트 조회 엔드포인트에서 실제 JSON 응답을 받을 수 있습니다.
 
