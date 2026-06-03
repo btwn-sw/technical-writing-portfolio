@@ -29,7 +29,7 @@ and Postman — no code editor required.
 
 - An active Eventbrite account
 - A valid **Private Token** — if you don't have one yet, follow the
-[Authentication Guide](https://claude.ai/guides/authentication.md) first, then return here
+[Authentication Guide](../guides/authentication.md) first, then return here
 - Postman installed or accessible at [postman.com](https://www.postman.com/)
 
 <br>
