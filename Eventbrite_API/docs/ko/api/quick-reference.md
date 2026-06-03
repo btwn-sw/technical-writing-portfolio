@@ -128,7 +128,7 @@ Authorization: Bearer YOUR_PRIVATE_TOKEN
 | `X-Apiary-RateLimit-Limit` | 현재 윈도우에서 허용된 최대 요청 수 |
 | `X-Apiary-RateLimit-Remaining` | 제한이 초기화되기 전까지 남은 요청 수 |
 
-→ [오류 레퍼런스 — 429](../api/error-reference.md#429-too-many-requests)
+👉 [오류 레퍼런스 — 429](../api/error-reference.md#429-too-many-requests)
 
 <br>
 
