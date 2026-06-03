@@ -195,7 +195,7 @@ account. The ID is the number at the end of the URL:
 
 ```
 https://www.eventbrite.com/e/my-event-name-12345678901
-                                            ^^^^^^^^^^^
+                                           ^^^^^^^^^^^
                                     This is your event_id
 ```
 
