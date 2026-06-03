@@ -44,7 +44,7 @@ Authorization: Bearer YOUR_PRIVATE_TOKEN
 - Generate or regenerate tokens at
 [Account Settings → API Keys](https://www.eventbrite.com/account-settings/apps).
 
-→ [Authentication Guide](../guides/authentication.md)
+👉 [Authentication Guide](../guides/authentication.md)
 
 <br>
 
@@ -59,7 +59,7 @@ Authorization: Bearer YOUR_PRIVATE_TOKEN
 | Publish an Event | `POST` | `/events/{event_id}/publish/` |
 | Delete an Event | `DELETE` | `/events/{event_id}/` |
 
-→ [API Reference](../api/api-reference.md)
+👉 [API Reference](../api/api-reference.md)
 
 <br>
 
@@ -93,7 +93,7 @@ DELETE.
 | `currency` | String | ISO 4217 currency code |
 | `url` | String | Public URL of the event on Eventbrite |
 
-→ [Response Handling Guide](../guides/response_handling.md)
+👉 [Response Handling Guide](../guides/response_handling.md)
 
 <br>
 
@@ -110,7 +110,7 @@ DELETE.
 | `404` | `NOT_FOUND` | Resource not found | Verify the event_id is correct |
 | `429` | — | Rate limit exceeded | Check X-Apiary-RateLimit-Remaining header |
 
-→ [Error Reference](../api/error-reference.md)
+👉 [Error Reference](../api/error-reference.md)
 
 <br>
 
@@ -129,7 +129,7 @@ DELETE.
 | `X-Apiary-RateLimit-Limit` | Maximum requests allowed in the current window |
 | `X-Apiary-RateLimit-Remaining` | Requests remaining before the limit resets |
 
-→ [Error Reference — 429](../api/error-reference.md#429-too-many-requests)
+👉 [Error Reference — 429](../api/error-reference.md#429-too-many-requests)
 
 <br>
 
@@ -151,6 +151,6 @@ curl --request GET \
   "https://www.eventbriteapi.com/v3/organizations/{organization_id}/events/"
 ```
 
-→ [Code Examples](../examples/code-examples.md)
+👉 [Code Examples](../examples/code-examples.md)
 
 <br>
