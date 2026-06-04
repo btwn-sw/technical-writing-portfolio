@@ -43,7 +43,6 @@ across multiple document types: tutorials, how-to guides, reference
 documentation, and explanations. Content is based on publicly available
 Eventbrite API documentation and is not intended for production use.
 
-For official Eventbrite API documentation, see Eventbrite API
-[Reference](https://www.eventbrite.com/platform/api/).
+For official Eventbrite API documentation, see 'https://www.eventbrite.com/platform/api/'.
 
 <br>
