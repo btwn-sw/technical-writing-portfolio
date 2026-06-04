@@ -11,7 +11,7 @@ how-to guides, authentication flows, tutorials, and error handling.
 
 ## Projects
 
-### [Eventbrite API Documentation](../api-docs-showcase/Eventbrite_API/README.md)
+### [Eventbrite API Documentation](../api-docs-showcase/eventbrite-api/README.md)
 
 A complete documentation set based on the public Eventbrite REST API.
 
@@ -23,7 +23,7 @@ A complete documentation set based on the public Eventbrite REST API.
 | Pagination, response handling, error reference | How-to / Reference |
 | Troubleshooting guide and code examples | Troubleshooting / Reference |
 
-### [Trackit API Documentation](../api-docs-showcase/TrackIt_API/docs/README.md)
+### [Trackit API Documentation](../api-docs-showcase/trackit-api/docs/README.md)
 
 A specification-first documentation project built around a fictional
 task management API.
