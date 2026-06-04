@@ -11,7 +11,7 @@ how-to guides, authentication flows, tutorials, and error handling.
 
 ## Projects
 
-### [Eventbrite API Documentation](../api-docs-showcase/eventbrite-api/README.md)
+### [Eventbrite API Documentation](../api-docs-showcase/eventbrite-api/docs/en/README.md)
 
 A complete documentation set based on the public Eventbrite REST API.
 
