@@ -1,58 +1,60 @@
 # API Documentation Projects
 
-This repository contains multiple API documentation projects designed to demonstrate structured, production-ready API documentation practices.
+This repository contains API documentation projects that demonstrate
+structured, developer-focused documentation across different API types
+and documentation formats.
 
-As a **technical writer** specializing in API documentation, I created these projects to showcase not only writing skills but also documentation architecture and developer experience thinking.
-
-Each Project includes a complete documentation set such as API references, guides, authentication flows, and supporting materials.
+Each project includes a complete documentation set: API references,
+how-to guides, authentication flows, tutorials, and error handling.
 
 <br>
 
-## Purpose
-The goal of this project is to showcase how different APIs can be documented using industry-standard approaches such as OpenAPI (Swagger), structured Markdown documentation, and developer-focused writing. 
+## Projects
 
-These projects are designed to simulate real-world API documentation scenarios.
+### [Eventbrite API Documentation](../api-docs-showcase/Eventbrite_API/README.md)
+
+A complete documentation set based on the public Eventbrite REST API.
+
+| What's covered | Documentation type |
+| --- | --- |
+| Quick start and step-by-step tutorial | Tutorial / How-to |
+| Authentication with Private Token and OAuth | How-to |
+| Event endpoint reference | Reference |
+| Pagination, response handling, error reference | How-to / Reference |
+| Troubleshooting guide and code examples | Troubleshooting / Reference |
+
+### [Trackit API Documentation](../api-docs-showcase/TrackIt_API/docs/README.md)
+
+A specification-first documentation project built around a fictional
+task management API.
+
+| What's covered | Documentation type |
+| --- | --- |
+| OpenAPI 3.0 specification | Specification |
+| Human-readable API reference | Reference |
+| Authentication, projects, tasks, notifications | Reference |
 
 <br>
 
 ## Documentation Approach
+
 All projects follow these principles:
-- Clear structure and consistent formatting
-- Separation between reference and conceptual documentation
-- Realistic request and response examples
-- Developer-friendly explanations
-The focus is not only on describing endpoints but on building usable developer documentation.
+
+- **Document type clarity** — each document serves one purpose:
+tutorial, how-to, reference, or explanation
+- **Separation of reference and conceptual documentation** — endpoint
+specs are kept separate from guides and tutorials
+- **Realistic examples** — all requests and responses use consistent,
+working examples
+- **Developer-first writing** — structured for scanning, not reading
 
 <br>
 
-## Current Projects
+## About
 
-### [1. Eventbrite API Documentation](./Eventbrite_API/docs/README.md)
-A structured documentation project based on the public Eventbrite API.
-Focus areas include:
-- Endpoint reference structure
-- Authentication documentation
-- Developer guides
-- Error handling
-
-### [2. Trackit API Documentation](./TrackIt_API/docs/README.md)
-A fictional but fully structured API specification project created to demonstrate OpenAPI-based documentation skills.
-This project includes:
-- OpenAPI specification file
-- Human-readable API reference
-- Request/response examples
-- Organized documentation structure
+These projects are part of a technical writing portfolio focused on
+API documentation architecture and developer experience.
+They simulate real-world documentation scenarios and are not
+connected to live backends.
 
 <br>
-
-## Upcoming Projects
-Additional API documentation projects will be added over time. This is designed to grow as new documentation projects are completed.
-
-<br>
-
-## About API Documentation Projects
-This project is part of a broader API documentation portfolio focused on practical, structured, and scalable documentation design.
-
-<br>
-
-

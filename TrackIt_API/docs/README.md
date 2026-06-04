@@ -1,26 +1,27 @@
 # Trackit API Documentation
 
-This project showcases a fictional REST API specification and its corresponding human-readable API reference documentation. The goal of this project is to demonstrate practical experience in designing and documenting APIs using OpenAPI (Swagger) and structured reference documentation.
+This repository contains a complete API reference for Trackit, a fictional
+task management API. Use the OpenAPI specification to explore the API contract,
+or read the structured API reference for human-readable endpoint documentation.
 
 <br>
 
-## 📌 Project Overview
+## What's Included
 
-**Trackit** is a fictional task management API designed for personal productivity use cases. 
-
-It includes endpoints for:
+Trackit covers five functional areas:
 
 - Authentication (register / login)
 - User profile management
-- Projects management
-- Tasks management
+- Project management
+- Task management
 - Notifications
 
-This API is not connected to a live backend. It was intentionally created as a specification-first documentation project.
+This API is not connected to a live backend. It was created as a
+specification-first documentation project.
 
 <br>
 
-## 📂 Repository Structure
+## Repository Structure
 
 ```
 /docs
@@ -30,37 +31,30 @@ This API is not connected to a live backend. It was intentionally created as a s
  └─ README.md              # Project overview
 ```
 
-- `openapi.yaml`: Defines endpoints, request/response schemas, and enums.
-- `api-reference.md`: Structured developer-facing documentation derived from the OpenAPI specification.
+| File | When to use |
+| --- | --- |
+| `openapi.yaml` | Explore endpoint contracts, request/response schemas, and enums. Import into Swagger UI or Postman. |
+| `api-reference.md` | Read structured developer-facing documentation with explanations and examples. |
 
 <br>
 
-## 🎯 Purpose of This Project
+## Documentation Approach
 
-This project demonstrates:
+This project follows a spec-first workflow:
 
-- Ability to write a complete OpenAPI 3.0 specification
-- Consistent schema and enum modeling
-- Clear and structured API reference documentation
-- Professional developer portal style formatting
-- Separation of specification and documentation layers
-
-<br>
-
-## 🛠 Documentation Approach
-
-This project follows a **spec-first documentation workflow**:
-
-1. Define the API contract using OpenAPI.
+1. Define the API contract using OpenAPI 3.0.
 2. Model reusable schemas and enums.
-3. Generate or manually craft a structured API reference.
-4. Ensure consistent response patterns (`code/message` vs `meta/data`).
+3. Craft a structured API reference from the specification.
+4. Ensure consistent response patterns across all endpoints.
 
 <br>
 
-## ⚠️ Disclaimer
+## About This Project
 
-Trackit API is fictional and created solely for documentation portfolio purposes.
+Trackit is a fictional API created for a technical writing portfolio.
+It demonstrates OpenAPI specification writing, schema modeling,
+and structured API reference documentation.
+
+Trackit is not a real product and is not intended for production use.
 
 <br>
-
