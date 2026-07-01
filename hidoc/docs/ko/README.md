@@ -66,7 +66,7 @@ HiDoc은 각 규제 의무를 원자(atom)로 분해합니다. 원자는 더 이
 - **Generation Traceability** — 생성된 모든 섹션은 소스 원자로 역추적할 수 있습니다.
 - **`[INFORMATION NEEDED]` 프로토콜** — 회사 프로파일 정보가 없으면 추측하지 않고 명시적인 플레이스홀더로 표시합니다.
 
-→ [아키텍처 상세](architecture.ko.md) · [생성 흐름 상세](how-it-works.ko.md)
+→ [아키텍처 상세](../ko/architecture.md) · [생성 흐름 상세](../ko/how-it-works.md)
 
 <br>
 
