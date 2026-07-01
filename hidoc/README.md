@@ -2,7 +2,7 @@
 
 > AI generates compliance document drafts. Humans reveiw, edit, and approve.
 
-[한국어 →](docs/ko/README.ko.md)]
+[한국어 →](/hidoc/docs/ko/README.md)
 
 <br>
 

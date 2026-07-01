@@ -145,7 +145,7 @@ User:   [원자 1 원문 조항 + principle_context]
 
 <br>
 
-*← [README로 돌아가기](../../README.md) · [아키텍처](architecture.ko.md)*
+*← [README로 돌아가기](../ko/README.md) · [아키텍처](../ko/architecture.md)*
 
 <br>
 <br>

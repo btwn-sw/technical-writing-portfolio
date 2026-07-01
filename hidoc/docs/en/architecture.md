@@ -136,7 +136,7 @@ Within a `DOC_` output, atoms inject in a specific sequence to produce coherent 
 
 <br>
 
-*← [Back to README](../../README.md)*
+*← [Back to README](/hidoc/README.md)*
 
 <br>
 <br>

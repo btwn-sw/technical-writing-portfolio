@@ -145,7 +145,7 @@ The generation engine supports four tone profiles:
 
 <br>
 
-*← [Back to README](../../README.md) · [Architecture](architecture.md)*
+*← [Back to README](/hidoc/README.md) · [Architecture](../en/architecture.md)*
 
 <br>
 <br>
