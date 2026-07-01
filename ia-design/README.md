@@ -62,21 +62,13 @@ Ads API Developer Portal
 
 **Key structural decisions:**
 
-**Error codes and metric definitions live in Common Reference, not in individual API pages.** 
+- **Error codes and metric definitions live in Common Reference, not in individual API pages:** Repeating definitions per endpoint creates a maintenance problem: when a definition changes, every page that contains it must be updated. A single source of truth for shared reference material is essential at any scale.
 
-Repeating definitions per endpoint creates a maintenance problem: when a definition changes, every page that contains it must be updated. A single source of truth for shared reference material is essential at any scale.
+- **Concept Guides precede Integration Guides:** External developers unfamiliar with ad platform concepts (attribution models, conversion windows, ad object hierarchy) cannot complete an integration guide without this foundation. Skipping concept documentation reduces time-to-first-integration for experienced developers, but increases support burden for everyone else.
 
-**Concept Guides precede Integration Guides.** 
+- **Changelog is a top-level section:** API changes are not footnotes. External developers who have already integrated need a reliable, subscribable signal when the API changes. RSS support and explicit Breaking Change notices are required from day one, not added later.
 
-External developers unfamiliar with ad platform concepts (attribution models, conversion windows, ad object hierarchy) cannot complete an integration guide without this foundation. Skipping concept documentation reduces time-to-first-integration for experienced developers, but increases support burden for everyone else.
-
-**Changelog is a top-level section.** 
-
-API changes are not footnotes. External developers who have already integrated need a reliable, subscribable signal when the API changes. RSS support and explicit Breaking Change notices are required from day one, not added later.
-
-**Advanced section is expandable by design.** 
-
-Platform-native data integration, creative tools, and optimization features are isolated in one section so the core integration path (Get Started → Integration Guides → API Reference) stays clean as the portal grows.
+- **Advanced section is expandable by design:** Platform-native data integration, creative tools, and optimization features are isolated in one section so the core integration path (Get Started → Integration Guides → API Reference) stays clean as the portal grows.
 
 <br>
 
@@ -117,13 +109,9 @@ Spec change
   → If failure signal detected → revise documentation → update quality criteria
 ```
 
-**Why TW reviews the PR, not just the merged spec:**
+- **Why TW reviews the PR, not just the merged spec:** The PR is where intent is visible. After merge, the diff shows what changed — but not why, and not what it means for developers who have already integrated. TW involvement at PR stage captures that context before it disappears into commit history.
 
-The PR is where intent is visible. After merge, the diff shows what changed — but not why, and not what it means for developers who have already integrated. TW involvement at PR stage captures that context before it disappears into commit history.
-
-**Documentation is not complete at deploy time.** 
-
-External developer responses after release are the signal for what the documentation missed. The monitoring step is not optional — it connects developer responses back to documentation improvement, completing the cycle.
+- **Documentation is not complete at deploy time:** External developer responses after release are the signal for what the documentation missed. The monitoring step is not optional — it connects developer responses back to documentation improvement, completing the cycle.
 
 <br>
 
