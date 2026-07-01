@@ -109,9 +109,13 @@ Spec change
   → If failure signal detected → revise documentation → update quality criteria
 ```
 
-- **Why TW reviews the PR, not just the merged spec:** The PR is where intent is visible. After merge, the diff shows what changed — but not why, and not what it means for developers who have already integrated. TW involvement at PR stage captures that context before it disappears into commit history.
+**Why TW reviews the PR, not just the merged spec.** 
 
-- **Documentation is not complete at deploy time:** External developer responses after release are the signal for what the documentation missed. The monitoring step is not optional — it connects developer responses back to documentation improvement, completing the cycle.
+The PR is where intent is visible. After merge, the diff shows what changed — but not why, and not what it means for developers who have already integrated. TW involvement at PR stage captures that context before it disappears into commit history.
+
+**Documentation is not complete at deploy time.** 
+
+External developer responses after release are the signal for what the documentation missed. The monitoring step is not optional — it connects developer responses back to documentation improvement, completing the cycle.
 
 <br>
 
@@ -125,6 +129,7 @@ Spec change
 | Google Ads API | developers.google.com/google-ads | Experiment management as top-level section |
 | Meta Marketing API | developers.facebook.com/docs/marketing-apis | Campaign hierarchy · breaking change notices |
 
+<br>
 <br>
 
 *This is a portfolio case study. The API specification used as context was a fictional spec provided as part of a technical writing assessment. All design decisions are the author's own.*
