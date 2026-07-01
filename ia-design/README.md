@@ -2,7 +2,7 @@
 
 A case study in designing an information architecture for an Ads API developer portal. The context: a commerce platform opening its advertising API to external developers for the first time.
 
-[한국어 →](docs/ko/README.ko.md)
+[한국어 →](../ia-design/ko/README.md)
 
 <br>
 

@@ -2,7 +2,7 @@
 
 커머스 플랫폼이 광고 API를 외부 개발자에게 처음 공개하는 상황에서 진행한 Ads API 개발자 포털 정보 구조 설계 케이스 스터디입니다.
 
-[English →](/README.md)
+[English →](/ia-design/README.md)
 
 <br>
 
