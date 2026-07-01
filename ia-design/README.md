@@ -10,7 +10,7 @@ A case study in designing an information architecture for an Ads API developer p
 
 Commerce platforms hold a category of data that pure ad platforms don't: real transaction and behavioral signals generated within their own ecosystem. When a commerce platform opens an advertising API to external developers, this data becomes the primary differentiator — but only if the developer portal is designed to surface it.
 
-This case study covers the IA design for a commerce platform's first external-facing advertising API developer portal. The platform was exposing its ad infrastructure to agencies, advertisers, and measurement partners for the first time.
+This case study covers the IA(Information Architecture) design for a commerce platform's first external-facing advertising API developer portal. The platform was exposing its ad infrastructure to agencies, advertisers, and measurement partners for the first time.
 
 The design challenge was about building an IA that would scale cleanly as the portal grew, while ensuring the platform's data advantage was visible in the structure from day one — not added as an afterthought.
 
