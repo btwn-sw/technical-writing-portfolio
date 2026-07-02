@@ -6,7 +6,7 @@
 
 When a platform opens a specialized API to external developers for the first time, the structure of the developer portal determines whether developers succeed on their own or end up filing support tickets. This case study walks through the reasoning behind one such portal's information architecture — from audience analysis to the final sitemap.
 
-[한국어 →](../ko/README-ko.md)
+[한국어 →](/ia-design/ko/README-ko.md)
 
 <br>
 
@@ -18,7 +18,7 @@ A logistics platform is opening its real-time shipment-tracking API to external 
 
 ## What this design covers
 
-Full reasoning, structure decisions, and the final sitemap are in → [Information Architecture Design](../en/ia-design.md)
+Full reasoning, structure decisions, and the final sitemap are in → [Information Architecture Design](../ia-design/en/ia-design.md)
 
 <br>
 <br>

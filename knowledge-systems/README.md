@@ -8,7 +8,7 @@ Fast-growing organizations run into the same knowledge problem again and again: 
 
 By the end, you'll see exactly where knowledge breaks down, how to build one trustworthy source for it, how to keep that source current without relying on memory alone, and how to get people to actually use it.
 
-[한국어 →](../ko/README-ko.md)
+[한국어 →](../knowledge-systems/ko/README-ko.md)
 
 <br>
 

@@ -2,7 +2,7 @@
 
 > AI generates compliance document drafts. Humans review, edit, and approve.
 
-[한국어 →](/hidoc/ko/README-ko.md)
+[한국어 →](../hidoc/ko/README-ko.md)
 
 <br>
 
@@ -24,8 +24,8 @@ Engine: Atom-based compliance mapping
 Output: One integrated document — each section tagged to its source obligations
 ```
 
-→ Full reasoning behind this structure: [Architecture](docs/en/architecture.md)
-→ The step-by-step generation flow, from input to streamed output: [How It Works](docs/en/how-it-works.md)
+→ Full reasoning behind this structure: [Architecture](../hidoc/en/architecture.md)
+→ The step-by-step generation flow, from input to streamed output: [How It Works](../hidoc/en/how-it-works.md)
 
 <br>
 

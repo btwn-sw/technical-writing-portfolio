@@ -24,8 +24,8 @@ HiDoc은 모든 규제를 **원자(atom)**, 즉 하나의 조항에서 추출한
 출력:  단일 통합 문서 — 각 섹션에 충족 규제 조항 태그 포함
 ```
 
-→ 이 구조 뒤에 있는 전체 판단 과정: [아키텍처](../en/architecture.md) (한국어: [아키텍처](architecture-ko.md))
-→ 입력부터 스트리밍 출력까지 단계별 생성 흐름: [작동 방식](../en/how-it-works.md) (한국어: [작동 방식](how-it-works-ko.md))
+→ 이 구조 뒤에 있는 전체 판단 과정: [아키텍처](../ko/architecture-ko.md) (영어: [아키텍처](../en/architecture.md))
+→ 입력부터 스트리밍 출력까지 단계별 생성 흐름: [작동 방식](../ko/how-it-works-ko.md) (영어: [작동 방식](../en/how-it-works.md))
 
 <br>
 
