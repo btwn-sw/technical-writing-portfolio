@@ -35,10 +35,10 @@ technical-writing-portfolio/
 
 | Folder | What it demonstrates | Start here |
 |---|---|---|
-| [`developer-portal/eventbrite-api/`](/developer-portal/eventbrite-api/README.md) | API documentation execution — a complete, structured documentation set (tutorials, how-to guides, reference, explanations) for a real-world API | [README](/developer-portal/eventbrite-api/docs/en/README.md) |
-| [`ia-design/`](/ia-design/README.md) | Information architecture design and competitive analysis — designing a developer portal's structure from audience research to sitemap | [README](/ia-design/README.md) |
-| [`knowledge-systems/`](/knowledge-systems/README.md) | Organizational knowledge systems design — diagnosing why documentation falls behind, and designing a system that keeps it current | [README](/knowledge-systems/README.md) |
-| [`hidoc/`](/hidoc/README.md) | Building an AI-powered tool from the ground up — an original product, including its architecture and generation engine | [README](/hidoc/README.md) |
+| [`developer-portal/eventbrite-api/`](/developer-portal/eventbrite-api/README.md) | **API documentation execution** — a complete, structured documentation set (tutorials, how-to guides, reference, explanations) for a real-world API | [README](/developer-portal/eventbrite-api/docs/en/README.md) |
+| [`ia-design/`](/ia-design/README.md) | **Case study** — designing a developer portal's information architecture, from audience research and competitive analysis to a final sitemap | [README](/ia-design/README.md) |
+| [`knowledge-systems/`](/knowledge-systems/README.md) | **Case study** — designing an organizational knowledge system, from diagnosing why documentation falls behind to keeping it current at scale | [README](/knowledge-systems/README.md) |
+| [`hidoc/`](/hidoc/README.md) | **Regulatory documents automation** — an original AI-powered tool built from the ground up, including its architecture and generation engine | [README](/hidoc/README.md) |
 
 
 <br>
