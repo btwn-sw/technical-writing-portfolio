@@ -2,39 +2,37 @@
 
 ## What you'll get from this
 
-The [Architecture](../en/architecture.md) page explains how HiDoc structures regulatory knowledge into four layers. This page explains what actually happens when a user runs the system — the six-step path from "I selected GDPR and filled in my company profile" to "a finished document is appearing on my screen, section by section."
+The [Architecture](../en/architecture.md) page explains how HiDoc structures regulatory knowledge into four layers. This page explains the flow the system actually follows when a user runs it — the six-step path from "I selected GDPR and filled in my company profile" to "a finished document draft is appearing on my screen, section by section."
 
-By the end, you'll understand exactly what each step does, why the engine refuses to guess when information is missing, and how the streaming behavior works.
+Through this page, you'll understand exactly what each step does, why the engine refuses to guess when information is missing, and how the streaming behavior works.
 
 <br>
 
 ## The six-step flow, at a glance
 
 ```
-User selects regulations + enters company profile
-↓
-Engine queries atom_output_mapping
-↓
-Engine applies company profile conditions
-↓
-Engine orders atoms by injection_order
-↓
-Engine assembles prompt per output section
-↓
-Claude API generates section content
-↓
-SSE streams output to client
+User Input: User selects regulations and enters company profile
+              ↓
+Atom Query: Query atom_output_mapping
+              ↓
+Condition Filtering: Apply company profile conditions
+              ↓
+Section Assembly: Assemble prompt per output section
+              ↓
+Generation Control: Claude API generates section content
+              ↓
+Streaming Output: SSE streams output to client
 ```
 
 <br>
 
 ## Step 1 — User Input
 
-Before generation starts, the user provides two things:
+Before generation starts, the user provides two things: **regulations and a company profile.**
 
-**Regulations:** one or more regulations the user wants to comply with — for example, GDPR plus ISMS-P together. Selecting a regulation activates every atom (recall from the [Architecture](../en/architecture.md) page: an atom is one indivisible regulatory obligation) that's mapped to it.
+**1. Regulations:** one or more regulations the user wants to comply with — for example, GDPR plus ISMS-P together. Selecting a regulation activates every atom (recall from the [Architecture](../en/architecture.md) page: an atom is one indivisible regulatory obligation) that's mapped to it.
 
-**Company profile:** a set of structured fields describing what the company's product actually does and how it handles data. This profile is what decides which *conditional* atoms — the ones with a `condition` other than `NULL` — actually apply to this specific company.
+**2. Company profile:** a set of structured fields describing what the company's product actually does and how it handles data. This profile determines whether **conditional atoms** — the ones whose `condition` isn't `NULL` — actually apply to this specific company.
 
 **Profile fields that affect what gets generated:**
 
@@ -60,27 +58,27 @@ WHERE ag.regulation_id IN (selected_regulation_ids)
 ORDER BY aom.output_id, aom.injection_order
 ```
 
-In plain terms: this pulls every atom relevant to the user's selected regulations, already grouped by which output each one belongs to, and already sorted into the order they should appear within that output.
+In plain terms: this pulls every atom relevant to the user's selected regulations, already organized by which output each one belongs to, with priority order already applied within that output.
 
 <br>
 
 ## Step 3 — Condition Filtering
 
-Not every atom applies to every company — that's what the `condition` column (introduced in [Architecture](../en/architecture.md) is for. This step checks each atom's condition against the company profile from Step 1.
+Not every atom applies to every company — that's what the `condition` column (introduced in [Architecture](../en/architecture.md)) is for. This step checks each atom's condition against the company profile from Step 1.
 
 ```
-atom.condition = NULL              → always inject
-atom.condition = 'if_uses_consent' → inject only if profile.uses_consent = true
+atom.condition = NULL                       → always inject
+atom.condition = 'if_uses_consent'          → inject only if profile.uses_consent = true
 atom.condition = 'if_special_category_data' → inject only if profile.processes_special_category_data = true
 ```
 
-Atoms whose condition doesn't match get excluded here, before generation ever happens. This is what keeps the final document specific to how *this* company actually operates, instead of reading like a generic template that happens to mention every possible obligation.
+Atoms whose condition doesn't match get excluded at this stage, before generation ever happens. This is what keeps the final document from reading like a generic template — instead, it reflects the company's identity, based on how the company actually operates.
 
 <br>
 
 ## Step 4 — Section Assembly
 
-For each output the engine needs to generate, it gathers all the atoms that contribute to it, arranged in `injection_order` sequence — the same ordering explained in the [Architecture](../en/architecture.md) page's Layer 3 section.
+For each output the engine needs to generate, it gathers all the atoms **that contribute to it**, arranged in `injection_order` sequence — the same ordering explained in the [Architecture](../en/architecture.md) page's Layer 3 section.
 
 Each assembled section becomes one prompt sent to the generation model:
 
@@ -105,13 +103,13 @@ Every single generation call — no exceptions — is bound by four principles. 
 The engine injects only what the atom mapping explicitly authorizes. If there's no atom content for something, nothing gets generated for it — the model has no room to fill a gap with a plausible-sounding guess.
 
 **Mapping Completeness**
-If an output's source atoms aren't fully mapped, that section simply doesn't generate. The system produces an explicit warning instead of a best-effort guess, because a confident-sounding but incomplete compliance document is more dangerous than an obviously missing one.
+If an output's source atoms aren't fully mapped, that section simply doesn't generate. The system produces an explicit warning instead of a best-effort guess, because an incomplete compliance document is more dangerous than an obviously missing one.
 
 **Generation Traceability**
-Every generated section records exactly which atoms contributed to it. This means anyone can trace a sentence in a finished document all the way back to the specific regulatory clause it came from.
+Every generated section records exactly which atoms contributed to it. This record makes it possible to trace a sentence in a finished document back to the specific regulation and clause it came from.
 
 **The `[INFORMATION NEEDED]` Protocol**
-If a company profile value the generation needs is missing, the engine inserts a literal `[INFORMATION NEEDED: field_name]` placeholder into the document, rather than guessing or silently leaving it out. The document stays structurally complete — the user just needs to fill in that one blank.
+If a company profile value the generation requires is missing, the engine inserts a literal `[INFORMATION NEEDED: field_name]` placeholder into the document, rather than guessing or leaving it out. The document stays structurally complete — the user just needs to fill in that blank.
 
 <br>
 
@@ -149,7 +147,7 @@ The same content can also be generated in four different tones, depending on the
 <br>
 <br>
 
-*← [Back to README](../README.md) · [Architecture](../en/architecture.md)*
+*← [Back to README](../en/README.md) · [Architecture](../en/architecture.md)*
 
 <br>
 <br>
