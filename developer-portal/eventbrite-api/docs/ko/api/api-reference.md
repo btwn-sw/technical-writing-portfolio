@@ -39,13 +39,13 @@ https://www.eventbriteapi.com/v3
 
 ## 인증
 
-모든 요청은 `Authorization` 헤더에 프라이빗 토큰을 넣으세요.
+모든 요청의 `Authorization` 헤더에 프라이빗 토큰을 포함해야 합니다.
 
 ```
 Authorization: Bearer YOUR_PRIVATE_TOKEN
 ```
 
-`YOUR_PRIVATE_TOKEN`을
+`YOUR_PRIVATE_TOKEN`은
 [Eventbrite API Keys 페이지](https://www.eventbrite.com/account-settings/apps)에서 발급됩니다.
 전체 설정 방법은 [인증 가이드](../guides/authentication.md)를 참고하세요.
 
