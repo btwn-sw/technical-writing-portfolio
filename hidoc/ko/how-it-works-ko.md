@@ -80,7 +80,7 @@ atom.condition = 'if_special_category_data' → profile.processes_special_catego
 
 ## 4단계 — 섹션 조립
 
-엔진이 생성해야 하는 각 출력물에 대해, 모든 원자를 모아 `injection_order` 순서대로 배치합니다. [아키텍처](../ko/architecture-ko.md) 문서의 레이어 3에서 설명한 것과 같은 순서 개념입니다.
+엔진이 생성해야 하는 각 출력물에 대해, **그 출력물에 기여하는** 모든 원자를 모아 `injection_order` 순서대로 배치합니다. [아키텍처](../ko/architecture-ko.md) 문서의 레이어 3에서 설명한 것과 같은 순서 개념입니다.
 
 조립된 각 섹션은 생성 모델에 전달되는 하나의 프롬프트가 됩니다.
 
